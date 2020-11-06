@@ -5,21 +5,24 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "vue-cli-service serve --open"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "d3": "^6.2.0",
-    "vue": "^2.6.12"
+    "core-js": "~3.7.0",
+    "d3": "~6.2.0",
+    "mdbvue": "~6.7.1",
+    "vue": "~2.6.12"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.8",
-    "@vue/cli-plugin-eslint": "^4.5.8",
-    "@vue/cli-service": "^4.5.8",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.12"
+    "@vue/cli-plugin-babel": "~4.5.8",
+    "@vue/cli-plugin-eslint": "~4.5.8",
+    "@vue/cli-service": "~4.5.8",
+    "babel-eslint": "~10.1.0",
+    "eslint": "~6.8.0",
+    "eslint-plugin-vue": "~6.2.2",
+    "vue-cli-plugin-mdb": "~2.1.0",
+    "vue-template-compiler": "~2.6.12"
   },
   "eslintConfig": {
     "root": true,

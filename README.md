@@ -1,22 +1,24 @@
-# VI_Project_2021
+# vi_project_2021_1
 
-## Idée du projet
-### Public cible
-Producteurs de films et gérant de cinéma
+## Project setup
+```
+npm install
+```
 
-### Données 
-Dataset: https://grouplens.org/datasets/movielens/
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-Films: movieid, title, genre
-Rating: userid, movieid, rating [0 à 5], timestamp
+### Compiles and minifies for production
+```
+npm run build
+```
 
-Aucune informations de localisation géographique
+### Lints and fixes files
+```
+npm run lint
+```
 
-### Données visualisées
-* Les films les plus notées par périodes de l’année (365 jours, semaines)
-  * En fonction de leur genre
-* Visualiser les vues effectuées sur un film spécifique par périodes de l’année (365 jours, semaines)
-* Visualiser les ratings par périodes de l’année (365 jours, semaines)
-  * En fonction de leur genre
-* Visualiser par année l’évolution des vues et ratings des genres de films
-* Visualiser, par film ou par genre, l’évolution des vues et ratings après leur sortie
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
