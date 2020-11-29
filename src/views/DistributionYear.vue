@@ -45,7 +45,7 @@ export default {
       links: state => state.links,
       movies: state => state.movies,
       ratings: state => state.ratings,
-      tags: state => state.tags
+      tags: state => state.tags,
     }),
     ...mapGetters(['RatingsPerMonth']),
   },

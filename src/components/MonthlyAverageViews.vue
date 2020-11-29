@@ -1,8 +1,11 @@
 <template>
-  <highcharts :options="chartOptions" />
+  <div v-if="$store.state.loading === 0">
+    <highcharts :options="chartOptions" />
+  </div>
 </template>
 
 <script>
+
 export default {
   name: "MonthlyAverageViews",
   props: {
@@ -13,7 +16,7 @@ export default {
     values: {
       type: Array,
       required: true
-    },
+    }
   },
   computed: {
     chartOptions: function () {
