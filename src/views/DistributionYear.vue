@@ -2,10 +2,7 @@
   <mdb-container id="distribution">
     <h2>Distribution</h2>
     <mdb-row>
-      <mdb-col
-        v-show="$store.state.loading === 0"
-        col="12"
-      >
+      <mdb-col col="12">
         <AverageRatingsPerMonth
           v-show="$store.state.loading === 0"
           title="Average views per months"
@@ -14,10 +11,7 @@
         <LoadingSpinner v-show="$store.state.loading > 0" />
       </mdb-col>
       
-      <mdb-col
-        v-show="$store.state.loading === 0"
-        col="12"
-      >
+      <mdb-col col="12">
         <AverageRatingsPerWeek
           v-show="$store.state.loading === 0"
           title="Average views per weeks of year"
@@ -26,10 +20,7 @@
         <LoadingSpinner v-show="$store.state.loading > 0" />
       </mdb-col>
 
-      <mdb-col
-        v-show="$store.state.loading === 0"
-        col="12"
-      >
+      <mdb-col col="12">
         <AverageRatingsPerDayOfWeek
           v-show="$store.state.loading === 0"
           title="Average views per days of week"
