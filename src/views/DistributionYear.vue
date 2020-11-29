@@ -14,6 +14,7 @@ import {
   mdbContainer,
 } from 'mdbvue'
 import BarChart from "@/components/BarChart";
+import {mapActions, mapState} from 'vuex';
 
 export default {
   name: "DistributionYear",
@@ -23,22 +24,54 @@ export default {
   },
   data: function () {
     return {
-      values: [
-        {name: "January", value: 20},
-        {name: "February", value: 34},
-        {name: "March", value: 23},
-        {name: "April", value: 56},
-        {name: "Mai", value: 10},
-        {name: "June", value: 15},
-        {name: "July", value: 40},
-        {name: "August", value: 60},
-        {name: "September", value: 23},
-        {name: "October", value: 10},
-        {name: "November", value: 30},
-        {name: "December", value: 80},
-      ]
-    };
-  }
+    }
+  },
+  computed: {
+    ...mapState({
+      name: state => state.name,
+      links: state => state.links,
+      movies: state => state.movies,
+      ratings: state => state.ratings,
+      tags: state => state.tags,
+      values: state => {
+        let values = [
+          {name: "January", value: 0},
+          {name: "February", value: 0},
+          {name: "March", value: 0},
+          {name: "April", value: 0},
+          {name: "Mai", value: 0},
+          {name: "June", value: 0},
+          {name: "July", value: 0},
+          {name: "August", value: 0},
+          {name: "September", value: 0},
+          {name: "October", value: 0},
+          {name: "November", value: 0},
+          {name: "December", value: 0},
+        ]
+        // Loop over all ratings, incrementing based on the month of the rating
+        for (const rating of state.ratings) {
+          const date = new Date(rating.timestamp * 1000);
+          values[date.getMonth()].value += 1;
+        }
+        return values;
+      }
+    })
+  },
+  methods: {
+    ...mapActions([
+      'getLinks',
+      'getMovies',
+      'getRatings',
+      'getTags'
+    ])
+  },
+  beforeMount() {
+    // Uncomment below to load required data
+    // this.$store.dispatch('getLinks');
+    // this.$store.dispatch('getMovies');
+    this.$store.dispatch('getRatings');
+    // this.$store.dispatch('getTags')
+  },
 }
 </script>
 
