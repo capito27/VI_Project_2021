@@ -6,27 +6,33 @@
         v-show="$store.state.loading === 0"
         col="12"
       >
-        <MonthlyAverageViews :values="RatingsPerMonth" />
+        <AverageRatingsPerMonth
+          v-show="$store.state.loading === 0"
+          :values="RatingsPerMonth"
+        />
+        <LoadingSpinner v-show="$store.state.loading > 0" />
       </mdb-col>
-
-      <mdb-col
-        v-show="$store.state.loading > 0"
-        col="12"
-      >
-        <LoadingSpinner />
-      </mdb-col>
+      
       <mdb-col
         v-show="$store.state.loading === 0"
         col="12"
       >
-        <WeeklyAverageViews :values="RatingsPerWeek" />
+        <AverageRatingsPerWeek
+          v-show="$store.state.loading === 0"
+          :values="RatingsPerWeek"
+        />
+        <LoadingSpinner v-show="$store.state.loading > 0" />
       </mdb-col>
 
       <mdb-col
-        v-show="$store.state.loading > 0"
+        v-show="$store.state.loading === 0"
         col="12"
       >
-        <LoadingSpinner />
+        <AverageRatingsPerDayOfWeek
+          v-show="$store.state.loading === 0"
+          :values="RatingPerDayOfWeek"
+        />
+        <LoadingSpinner v-show="$store.state.loading > 0" />
       </mdb-col>
     </mdb-row>
   </mdb-container>
@@ -39,8 +45,9 @@ import {
   mdbCol,
 } from 'mdbvue'
 import LoadingSpinner from "@/components/LoadingSpinner";
-import MonthlyAverageViews from "@/components/MonthlyAverageViews";
-import WeeklyAverageViews from "@/components/WeeklyAverageViews";
+import AverageRatingsPerMonth from "@/components/AverageRatingsPerMonth";
+import AverageRatingsPerWeek from "@/components/AverageRatingsPerWeek";
+import AverageRatingsPerDayOfWeek from "@/components/AverageRatingsPerDayOfWeek";
 import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
@@ -50,8 +57,9 @@ export default {
     mdbRow,
     mdbCol,
     LoadingSpinner,
-    MonthlyAverageViews,
-    WeeklyAverageViews,
+    AverageRatingsPerMonth,
+    AverageRatingsPerWeek,
+    AverageRatingsPerDayOfWeek,
   },
   data: function () {
     return {}
@@ -64,7 +72,7 @@ export default {
       ratings: state => state.ratings,
       tags: state => state.tags,
     }),
-    ...mapGetters(['RatingsPerMonth', 'RatingsPerWeek']),
+    ...mapGetters(['RatingsPerMonth', 'RatingsPerWeek', 'RatingPerDayOfWeek']),
   },
   beforeMount() {
     // Uncomment below to load required data if missing

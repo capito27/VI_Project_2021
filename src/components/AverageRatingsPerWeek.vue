@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "WeeklyAverageViews",
+  name: "AverageRatingsPerWeek",
   props: {
     values: {
       type: Array,

@@ -36,8 +36,10 @@ export const store = new Vuex.Store({
         RatingsPerMonth: state => {
             let values = {
                 name: "Overall",
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                data: Array(12)
             }
+            values.data.fill(0)
+
             // Loop over all ratings, incrementing based on the month of the rating
             for (const rating of state.ratings) {
                 const date = new Date(rating.timestamp * 1000);
@@ -54,17 +56,27 @@ export const store = new Vuex.Store({
 
             for (const rating of state.ratings) {
                 const date = new Date(rating.timestamp * 1000)
-                const week = date.getWeek()
-
-                if (week > 52 || week === 0)
-                    console.log(week + " --- " + date)
-
-                values.data[week - 1] += 1
+                values.data[date.getWeek() - 1] += 1
             }
 
             console.log(values)
             return [values]
         },
+        RatingPerDayOfWeek: state => {
+            let values = {
+                name: "Overall",
+                data: Array(7)
+            }
+            values.data.fill(0)
+
+            for (const rating of state.ratings) {
+                const date = new Date(rating.timestamp * 1000)
+                values.data[date.getDay()] += 1
+            }
+
+            console.log(values)
+            return [values]
+        }
     },
     actions: {
         getLinks: ({commit}) => {
