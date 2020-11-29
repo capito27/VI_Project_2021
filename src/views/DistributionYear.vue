@@ -3,7 +3,7 @@
     <h2>Distribution</h2>
     <MonthlyAverageViews
       :labels="labels"
-      :values="values"
+      :values="RatingsPerMonth"
     />
   </mdb-container>
 </template>
@@ -13,7 +13,7 @@ import {
   mdbContainer,
 } from 'mdbvue'
 import MonthlyAverageViews from "@/components/MonthlyAverageViews";
-import {mapActions, mapState} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
   name: "DistributionYear",
@@ -45,21 +45,20 @@ export default {
       links: state => state.links,
       movies: state => state.movies,
       ratings: state => state.ratings,
-      tags: state => state.tags,
-      values: state => {
-        let values = {
-          name: "Overall",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        }
-        // Loop over all ratings, incrementing based on the month of the rating
-        for (const rating of state.ratings) {
-          const date = new Date(rating.timestamp * 1000);
-          values.data[date.getMonth()] += 1;
-        }
-
-        return [values];
-      }
-    })
+      tags: state => state.tags
+    }),
+    ...mapGetters(['RatingsPerMonth']),
+  },
+  beforeMount() {
+    // Uncomment below to load required data if missing
+    //if (this.$store.state.links.length === 0)
+    //  this.$store.dispatch('getLinks');
+    //if (this.$store.state.movies.length === 0)
+    //  this.$store.dispatch('getMovies');
+    if (this.$store.state.ratings.length === 0)
+      this.$store.dispatch('getRatings');
+    //if (this.$store.state.tags.length === 0)
+    //  this.$store.dispatch('getTags')
   },
   methods: {
     ...mapActions([
@@ -68,13 +67,6 @@ export default {
       'getRatings',
       'getTags'
     ])
-  },
-  beforeMount() {
-    // Uncomment below to load required data
-    // this.$store.dispatch('getLinks');
-    // this.$store.dispatch('getMovies');
-    this.$store.dispatch('getRatings');
-    // this.$store.dispatch('getTags')
   },
 }
 </script>

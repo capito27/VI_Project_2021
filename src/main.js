@@ -24,7 +24,20 @@ export const store = new Vuex.Store({
         ratings: [],
         tags: [],
     },
-    getters: {},
+    getters: {
+        RatingsPerMonth: state => {
+            let values = {
+                name: "Overall",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }
+            // Loop over all ratings, incrementing based on the month of the rating
+            for (const rating of state.ratings) {
+                const date = new Date(rating.timestamp * 1000);
+                values.data[date.getMonth()] += 1;
+            }
+            return [values];
+        }
+    },
     mutations: {
         setLinks(state, data) {
             state.links = data
