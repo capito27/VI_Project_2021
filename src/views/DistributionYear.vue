@@ -1,10 +1,9 @@
 <template>
   <mdb-container id="distribution">
     <h2>Distribution</h2>
-    <BarChart
+    <MonthlyAverageViews
+      :labels="labels"
       :values="values"
-      width="50%"
-      height="50%"
     />
   </mdb-container>
 </template>
@@ -13,17 +12,31 @@
 import {
   mdbContainer,
 } from 'mdbvue'
-import BarChart from "@/components/BarChart";
+import MonthlyAverageViews from "@/components/MonthlyAverageViews";
 import {mapActions, mapState} from 'vuex';
 
 export default {
   name: "DistributionYear",
   components: {
-    BarChart,
+    MonthlyAverageViews,
     mdbContainer,
   },
   data: function () {
     return {
+      labels: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "Mai",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
     }
   },
   computed: {
@@ -34,26 +47,17 @@ export default {
       ratings: state => state.ratings,
       tags: state => state.tags,
       values: state => {
-        let values = [
-          {name: "January", value: 0},
-          {name: "February", value: 0},
-          {name: "March", value: 0},
-          {name: "April", value: 0},
-          {name: "Mai", value: 0},
-          {name: "June", value: 0},
-          {name: "July", value: 0},
-          {name: "August", value: 0},
-          {name: "September", value: 0},
-          {name: "October", value: 0},
-          {name: "November", value: 0},
-          {name: "December", value: 0},
-        ]
+        let values = {
+          name: "Overall",
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
         // Loop over all ratings, incrementing based on the month of the rating
         for (const rating of state.ratings) {
           const date = new Date(rating.timestamp * 1000);
-          values[date.getMonth()].value += 1;
+          values.data[date.getMonth()] += 1;
         }
-        return values;
+
+        return [values];
       }
     })
   },

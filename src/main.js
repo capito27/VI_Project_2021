@@ -1,14 +1,19 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import 'bootstrap-css-only/css/bootstrap.min.css'
 import 'mdbvue/lib/css/mdb.min.css'
+
 import Vue from 'vue'
 import Vuex from 'vuex'
+import HighchartsVue from "highcharts-vue";
+
 import App from './App.vue'
 import router from './router'
 import * as d3 from 'd3'
 
 Vue.config.productionTip = false
+
 Vue.use(Vuex)
+Vue.use(HighchartsVue);
 // Default store, containing the dataset
 
 export const store = new Vuex.Store({
@@ -61,6 +66,7 @@ export const store = new Vuex.Store({
         }
     }
 });
+
 new Vue({
     el: '#app',
     router,
