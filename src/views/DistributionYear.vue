@@ -6,7 +6,7 @@
         <AverageRatingsPerMonth
           v-show="$store.state.loading === 0"
           title="Average views per months"
-          :values="RatingsPerMonth"
+          :values="ViewsPerMonth"
         />
         <LoadingSpinner v-show="$store.state.loading > 0" />
       </mdb-col>
@@ -15,7 +15,7 @@
         <AverageRatingsPerWeek
           v-show="$store.state.loading === 0"
           title="Average views per weeks of year"
-          :values="RatingsPerWeek"
+          :values="ViewsPerWeek"
         />
         <LoadingSpinner v-show="$store.state.loading > 0" />
       </mdb-col>
@@ -24,7 +24,7 @@
         <AverageRatingsPerDayOfWeek
           v-show="$store.state.loading === 0"
           title="Average views per days of week"
-          :values="RatingPerDayOfWeek"
+          :values="ViewsPerDayOfWeek"
         />
         <LoadingSpinner v-show="$store.state.loading > 0" />
       </mdb-col>
@@ -66,18 +66,7 @@ export default {
       ratings: state => state.ratings,
       tags: state => state.tags,
     }),
-    ...mapGetters(['RatingsPerMonth', 'RatingsPerWeek', 'RatingPerDayOfWeek']),
-  },
-  beforeMount() {
-    // Uncomment below to load required data if missing
-    //if (this.$store.state.links.length === 0)
-    //  this.$store.dispatch('getLinks');
-    //if (this.$store.state.movies.length === 0)
-    //  this.$store.dispatch('getMovies');
-    if (this.$store.state.ratings.length === 0)
-      this.$store.dispatch('getRatings');
-    //if (this.$store.state.tags.length === 0)
-    //  this.$store.dispatch('getTags')
+    ...mapGetters(['ViewsPerMonth', 'ViewsPerWeek', 'ViewsPerDayOfWeek']),
   },
   methods: {
     ...mapActions([

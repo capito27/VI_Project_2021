@@ -12,7 +12,18 @@ export default {
   name: 'App',
   components: {
     Header,
-  }
+  },
+  beforeMount() {
+    // Uncomment below to load required data if missing
+    //if (this.$store.state.links.length === 0)
+    //  this.$store.dispatch('getLinks');
+    //if (this.$store.state.movies.length === 0)
+    //  this.$store.dispatch('getMovies');
+    if (this.$store.state.ratings.length === 0)
+      this.$store.dispatch('getRatings');
+    //if (this.$store.state.tags.length === 0)
+    //  this.$store.dispatch('getTags')
+  },
 }
 </script>
 

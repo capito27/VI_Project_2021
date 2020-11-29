@@ -33,7 +33,7 @@ export const store = new Vuex.Store({
         }
     },
     getters: {
-        RatingsPerMonth: state => {
+        ViewsPerMonth: state => {
             let values = {
                 name: "Overall",
                 data: Array(12)
@@ -47,7 +47,7 @@ export const store = new Vuex.Store({
             }
             return [values];
         },
-        RatingsPerWeek: state => {
+        ViewsPerWeek: state => {
             let values = {
                 name: "Overall",
                 data: Array(52)
@@ -62,7 +62,7 @@ export const store = new Vuex.Store({
             console.log(values)
             return [values]
         },
-        RatingPerDayOfWeek: state => {
+        ViewsPerDayOfWeek: state => {
             let values = {
                 name: "Overall",
                 data: Array(7)
