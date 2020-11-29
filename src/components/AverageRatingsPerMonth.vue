@@ -9,6 +9,10 @@
 export default {
   name: "AverageRatingsPerMonth",
   props: {
+    title: {
+      type: String,
+      required: true
+    },
     values: {
       type: Array,
       required: true
@@ -39,7 +43,7 @@ export default {
           type: 'column',
         },
         title: {
-          text: "Monthly Average Views"
+          text: this.title
         },
         xAxis: {
           categories: this.labels,

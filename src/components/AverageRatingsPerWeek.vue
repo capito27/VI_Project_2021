@@ -8,6 +8,10 @@
 export default {
   name: "AverageRatingsPerWeek",
   props: {
+    title: {
+      type: String,
+      required: true
+    },
     values: {
       type: Array,
       required: true
@@ -32,7 +36,7 @@ export default {
           type: 'column',
         },
         title: {
-          text: "Weekly Average Views"
+          text: this.title
         },
         xAxis: {
           categories: this.labels,

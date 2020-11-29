@@ -8,6 +8,7 @@
       >
         <AverageRatingsPerMonth
           v-show="$store.state.loading === 0"
+          title="Average views per months"
           :values="RatingsPerMonth"
         />
         <LoadingSpinner v-show="$store.state.loading > 0" />
@@ -19,6 +20,7 @@
       >
         <AverageRatingsPerWeek
           v-show="$store.state.loading === 0"
+          title="Average views per weeks of year"
           :values="RatingsPerWeek"
         />
         <LoadingSpinner v-show="$store.state.loading > 0" />
@@ -30,6 +32,7 @@
       >
         <AverageRatingsPerDayOfWeek
           v-show="$store.state.loading === 0"
+          title="Average views per days of week"
           :values="RatingPerDayOfWeek"
         />
         <LoadingSpinner v-show="$store.state.loading > 0" />
