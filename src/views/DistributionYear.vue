@@ -2,8 +2,10 @@
   <mdb-container id="distribution">
     <h2>Distribution</h2>
     <MonthlyAverageViews
-      :labels="labels"
       :values="RatingsPerMonth"
+    />
+    <WeeklyAverageViews
+      :values="RatingsPerWeek"
     />
   </mdb-container>
 </template>
@@ -13,30 +15,18 @@ import {
   mdbContainer,
 } from 'mdbvue'
 import MonthlyAverageViews from "@/components/MonthlyAverageViews";
+import WeeklyAverageViews from "@/components/WeeklyAverageViews";
 import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
   name: "DistributionYear",
   components: {
     MonthlyAverageViews,
+    WeeklyAverageViews,
     mdbContainer,
   },
   data: function () {
     return {
-      labels: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "Mai",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
     }
   },
   computed: {
@@ -47,7 +37,7 @@ export default {
       ratings: state => state.ratings,
       tags: state => state.tags,
     }),
-    ...mapGetters(['RatingsPerMonth']),
+    ...mapGetters(['RatingsPerMonth', 'RatingsPerWeek']),
   },
   beforeMount() {
     // Uncomment below to load required data if missing

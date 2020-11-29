@@ -5,45 +5,38 @@
 </template>
 
 <script>
-
 export default {
-  name: "MonthlyAverageViews",
+  name: "WeeklyAverageViews",
   props: {
     values: {
       type: Array,
       required: true
-    }
+    },
   },
   data: function () {
-    return {
-      labels: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "Mai",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
-    }
+    return {}
   },
   computed: {
+    labels: function () {
+      let labels = []
+
+      for (let i = 0; i < 52; i++) {
+        labels[i] = i + 1
+      }
+
+      return labels
+    },
     chartOptions: function () {
       return {
         chart: {
           type: 'column',
         },
         title: {
-          text: "Monthly Average Views"
+          text: "Weekly Average Views"
         },
         xAxis: {
           categories: this.labels,
-          crosshair: true
+          crosshair: true,
         },
         yAxis: {
           min: 0,
