@@ -1,16 +1,22 @@
 from flask import Flask, jsonify
-import numba
-
-from datetime import date
 import numpy as np
-import pandas as pd
 
 from data import ratings
 
 app = Flask(__name__)
 
+
+def test():
+    data = np.zeros(12)
+
+    months = ratings.timestamp // 2629743 % 12
+    for i in range(0, 12):
+        data[i] = len(months[months == i])
+
+    return data
+
+
 @app.route('/')
-#@numba.jit(nopython=True, parallel=True)
 def home():
     values = {
         "labels": [
@@ -27,12 +33,8 @@ def home():
             "November",
             "December",
         ],
-        "data": np.zeros(12, dtype="Int64").tolist()
+        "data": test().tolist()
     }
-    months = ratings.timestamp // 2629743 % 12
-    for i in range(0,12):
-    	values["data"][i] = len(months[months == i])
-    	print(values["data"][i])
 
     return jsonify(values)
 
