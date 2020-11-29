@@ -1,19 +1,44 @@
 <template>
   <mdb-container id="distribution">
     <h2>Distribution</h2>
-    <MonthlyAverageViews
-      :values="RatingsPerMonth"
-    />
-    <WeeklyAverageViews
-      :values="RatingsPerWeek"
-    />
+    <mdb-row>
+      <mdb-col
+        v-show="$store.state.loading === 0"
+        col="12"
+      >
+        <MonthlyAverageViews :values="RatingsPerMonth" />
+      </mdb-col>
+
+      <mdb-col
+        v-show="$store.state.loading > 0"
+        col="12"
+      >
+        <LoadingSpinner />
+      </mdb-col>
+      <mdb-col
+        v-show="$store.state.loading === 0"
+        col="12"
+      >
+        <WeeklyAverageViews :values="RatingsPerWeek" />
+      </mdb-col>
+
+      <mdb-col
+        v-show="$store.state.loading > 0"
+        col="12"
+      >
+        <LoadingSpinner />
+      </mdb-col>
+    </mdb-row>
   </mdb-container>
 </template>
 
 <script>
 import {
   mdbContainer,
+  mdbRow,
+  mdbCol,
 } from 'mdbvue'
+import LoadingSpinner from "@/components/LoadingSpinner";
 import MonthlyAverageViews from "@/components/MonthlyAverageViews";
 import WeeklyAverageViews from "@/components/WeeklyAverageViews";
 import {mapActions, mapGetters, mapState} from 'vuex';
@@ -21,13 +46,15 @@ import {mapActions, mapGetters, mapState} from 'vuex';
 export default {
   name: "DistributionYear",
   components: {
+    mdbContainer,
+    mdbRow,
+    mdbCol,
+    LoadingSpinner,
     MonthlyAverageViews,
     WeeklyAverageViews,
-    mdbContainer,
   },
   data: function () {
-    return {
-    }
+    return {}
   },
   computed: {
     ...mapState({
@@ -62,5 +89,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

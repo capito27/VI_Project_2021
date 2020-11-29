@@ -29,13 +29,6 @@
           </mdb-nav-item>
         </mdb-navbar-nav>
       </mdb-navbar-toggler>
-      <div v-if="$store.state.loading > 0">
-        <fade-loader
-          height="10px"
-          radius="15px"
-          margin="0"
-        />
-      </div>
     </mdb-container>
   </mdb-navbar>
 </template>
@@ -50,9 +43,6 @@ import {
   mdbNavItem,
 } from 'mdbvue';
 
-import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
-
-
 export default {
   name: "Header",
   components: {
@@ -62,7 +52,6 @@ export default {
     mdbNavbarToggler,
     mdbNavbarNav,
     mdbNavItem,
-    FadeLoader,
   }
 }
 </script>
