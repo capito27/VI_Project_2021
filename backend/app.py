@@ -9,9 +9,8 @@ from data import ratings
 
 app = Flask(__name__)
 
-
 @app.route('/')
-# @numba.jit(nopython=True, parallel=True)
+#@numba.jit(nopython=True, parallel=True)
 def home():
     values = {
         "labels": [
@@ -30,11 +29,10 @@ def home():
         ],
         "data": np.zeros(12, dtype="Int64").tolist()
     }
-
-    for rating in ratings:
-        timestamp = rating.timestamp
-        date_data = date.fromtimestamp(timestamp)
-        values["data"][date_data.month - 1] += 1
+    months = ratings.timestamp // 2629743 % 12
+    for i in range(0,12):
+    	values["data"][i] = len(months[months == i])
+    	print(values["data"][i])
 
     return jsonify(values)
 
