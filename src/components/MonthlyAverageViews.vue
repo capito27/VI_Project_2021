@@ -15,9 +15,9 @@ export default {
       required: true
     },
   },
-  data: function () {
-    return {
-      chartOptions: {
+  computed: {
+    chartOptions: function () {
+      return {
         chart: {
           type: 'column',
         },
