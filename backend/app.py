@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 import numpy as np
 import pandas as pd
-from dask import dataframe as ddf
+from dask import dataframe as df
 
 from data import ratings, movies
 
@@ -28,9 +28,10 @@ def views_per_month():
         "data": np.zeros(12).tolist()
     }
 
-    months = ratings.timestamp // 2629743 % 12
+    month = ratings[["month", "movieId"]].groupby("month").count().compute().to_numpy().tolist()
+
     for i in range(0, 12):
-        values["data"][i] = len(months[months == i])
+        values["data"][i] = month[i]
 
     return jsonify(values)
 
@@ -42,9 +43,11 @@ def views_per_week():
         "data": np.zeros(52).tolist()
     }
 
-    weeks = ratings.timestamp // 86400 // 7 % 52
+    weeks = ratings[["week", "movieId"]].groupby("week").count().compute().to_numpy().tolist()
+
     for i in range(0, 52):
-        values["data"][i] = len(weeks[weeks == i])
+        values["data"][i] = weeks[i]
+    values["data"][0] = weeks[52]
 
     return jsonify(values)
 
@@ -64,12 +67,10 @@ def views_per_day():
         "data": np.zeros(7).tolist()
     }
 
-    day_of_week = ddf.map_partitions(
-        lambda df: pd.to_datetime(df.timestamp, unit="s").dt.dayofweek, ratings
-    )
+    day_of_week = ratings[["day_of_week", "movieId"]].groupby("day_of_week").count().compute().to_numpy().tolist()
 
     for i in range(0, 7):
-        values["data"][i] = len(day_of_week[day_of_week == i])
+        values["data"][i] = day_of_week[i]
 
     return jsonify(values)
 
