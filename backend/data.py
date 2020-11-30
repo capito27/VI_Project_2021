@@ -25,9 +25,16 @@ ratings["month"] = ratings.timestamp.dt.month
 ratings["week"] = ratings.timestamp.dt.isocalendar().week
 ratings["day_of_week"] = ratings.timestamp.dt.dayofweek
 
-
 # Loading movies
-movies = df.read_csv(data_root + "movies.csv")
+movies_dtypes = {
+    "movieId": int,
+    "title": str,
+    "genres": str,
+}
+movies = df.read_csv(data_root + "movies.csv", usecols=[0, 1, 2], dtype=movies_dtypes)
+
+# Processing movies
+movies["genres"] = movies.genres.str.split("|")
 
 # Loading end
 end = datetime.now()
@@ -35,16 +42,23 @@ duration = end - start
 print("Loading data duration = " + str(duration))
 print("==== End loading ====")
 
+print("==== Start Stats ====")
+
+print("== Ratings ==")
+print("Ratings length: " + str(len(ratings)))
+print(ratings.dtypes)
+
+print("== Movies ==")
+print("Movies length: " + str(len(movies)))
+print(movies.dtypes)
+
+print("==== End Stats ====")
 
 print("==== Start Testing ====")
 start = datetime.now()
 # Testing start
 
-print("Ratings length: " + str(len(ratings)))
-print("Movies length: " + str(len(movies)))
 
-print(ratings.dtypes)
-print(ratings.head())
 
 # Testing end
 end = datetime.now()

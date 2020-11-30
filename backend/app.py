@@ -10,6 +10,16 @@ app = Flask(__name__)
 CORS(app)
 
 
+@app.route('/movies')
+def get_movies():
+    return movies[["movieId", "title"]].compute().to_json(orient="records")
+
+
+@app.route('/genres')
+def get_genres():
+    return movies["genres"].explode().unique().compute().to_json(orient="records")
+
+
 @app.route('/views/per_month')
 def views_per_month():
     values = {
@@ -54,8 +64,8 @@ def views_per_week():
     return jsonify(values)
 
 
-@app.route('/views/per_day')
-def views_per_day():
+@app.route('/views/per_day_of_week')
+def views_per_day_of_week():
     values = {
         "labels": [
             "Monday",
