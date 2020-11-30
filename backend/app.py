@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import numpy as np
 import pandas as pd
 from dask import dataframe as df
@@ -6,6 +7,7 @@ from dask import dataframe as df
 from data import ratings, movies
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/views/per_month')
@@ -31,7 +33,7 @@ def views_per_month():
     month = ratings[["month", "movieId"]].groupby("month").count().compute().to_numpy().tolist()
 
     for i in range(0, 12):
-        values["data"][i] = month[i]
+        values["data"][i] = month[i][0]
 
     return jsonify(values)
 
@@ -46,7 +48,7 @@ def views_per_week():
     weeks = ratings[["week", "movieId"]].groupby("week").count().compute().to_numpy().tolist()
 
     for i in range(0, 52):
-        values["data"][i] = weeks[i]
+        values["data"][i] = weeks[i][0]
     values["data"][0] = weeks[52]
 
     return jsonify(values)
@@ -70,7 +72,7 @@ def views_per_day():
     day_of_week = ratings[["day_of_week", "movieId"]].groupby("day_of_week").count().compute().to_numpy().tolist()
 
     for i in range(0, 7):
-        values["data"][i] = day_of_week[i]
+        values["data"][i] = day_of_week[i][0]
 
     return jsonify(values)
 

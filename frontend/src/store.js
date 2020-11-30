@@ -59,7 +59,6 @@ export const store = new Vuex.Store({
                 values.data[date.getWeek() - 1] += 1
             }
 
-            console.log(values)
             return [values]
         },
         ViewsPerDayOfWeek: state => {
@@ -74,7 +73,6 @@ export const store = new Vuex.Store({
                 values.data[date.getDay()] += 1
             }
 
-            console.log(values)
             return [values]
         }
     },

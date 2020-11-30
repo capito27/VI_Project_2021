@@ -17,7 +17,6 @@ Vue.config.productionTip = false
 Vue.use(Vuex)
 Vue.use(HighchartsVue);
 
-
 new Vue({
     el: '#app',
     router,
