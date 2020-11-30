@@ -1,13 +1,14 @@
 from datetime import datetime
-from dask import dataframe as dd
+from dask import dataframe
+import dask
 
 data_root = "static/dataset/big/"
 # data_root = "static/dataset/small/"
 
 start = datetime.now()
 
-ratings = dd.read_csv(data_root + "ratings.csv").compute()
-movies = dd.read_csv(data_root + "movies.csv").compute()
+ratings = dataframe.read_csv(data_root + "ratings.csv").compute()
+movies = dataframe.read_csv(data_root + "movies.csv").compute()
 
 end = datetime.now()
 
@@ -16,3 +17,4 @@ print("Loading data duration = " + str(duration))
 
 print("Ratings length: " + str(len(ratings)))
 print("Movies length: " + str(len(movies)))
+
