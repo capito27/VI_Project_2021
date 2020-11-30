@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from dask import dataframe as df
 
-from data import ratings, movies
+from data import ratings, movies, genres
 
 app = Flask(__name__)
 CORS(app)
@@ -17,7 +17,7 @@ def get_movies():
 
 @app.route('/genres')
 def get_genres():
-    return movies["genres"].explode().unique().compute().to_json(orient="records")
+    return genres.to_json(orient="records")
 
 
 @app.route('/views/per_month')

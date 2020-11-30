@@ -36,6 +36,9 @@ movies = df.read_csv(data_root + "movies.csv", usecols=[0, 1, 2], dtype=movies_d
 # Processing movies
 movies["genres"] = movies.genres.str.split("|")
 
+# Genres list
+genres = movies["genres"].explode().unique().compute()
+
 # Loading end
 end = datetime.now()
 duration = end - start
