@@ -59,7 +59,7 @@ def views_per_week():
 
     for i in range(0, 52):
         values["data"][i] = weeks[i][0]
-    values["data"][0] = weeks[52]
+    values["data"][0] += weeks[52][0]
 
     return jsonify(values)
 
