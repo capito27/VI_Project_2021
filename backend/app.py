@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import numpy as np
 import pandas as pd
@@ -18,6 +18,44 @@ def get_movies():
 @app.route('/genres')
 def get_genres():
     return genres.to_json(orient="records")
+
+
+@app.route('/views/per_genres', methods=["POST"])
+def get_view_per_genres():
+    params = request.get_json()
+
+    conditions = True
+    for key, val in params.items():
+        if val:
+            conditions &= movies.genres.str.contains(key)
+        else:
+            conditions &= not movies.genres.str.contains(key)
+
+    filtered = ratings.where(ratings.movieId.isin(movies.movieId.where(conditions).dropna().compute()))
+    grouped = filtered[["month", "movieId"]].groupby("month").count().compute().to_numpy().tolist()
+
+    values = {
+        "labels": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "Mai",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ],
+        "data": np.zeros(12).tolist()
+    }
+
+    for i in range(0, 12):
+        values["data"][i] = grouped[i][0]
+
+    return jsonify(values)
 
 
 @app.route('/views/per_month')

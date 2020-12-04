@@ -34,10 +34,10 @@ movies_dtypes = {
 movies = df.read_csv(data_root + "movies.csv", usecols=[0, 1, 2], dtype=movies_dtypes)
 
 # Processing movies
-movies["genres"] = movies.genres.str.split("|")
+movies["genres_array"] = movies.genres.str.split("|")
 
 # Genres list
-genres = movies["genres"].explode().unique().compute()
+genres = movies["genres_array"].explode().unique().compute()
 
 # Loading end
 end = datetime.now()
@@ -61,7 +61,14 @@ print("==== Start Testing ====")
 start = datetime.now()
 # Testing start
 
-
+# condition = movies.genres.str.contains("Adventure")
+# condition = condition & movies.genres.str.contains("Children")
+#
+# moviesId = movies.movieId.where(condition).dropna().compute()
+#
+# mask = ratings.movieId.isin(moviesId)
+# filtered = ratings.where(mask)[["month", "movieId"]].groupby("month").count()
+# print(filtered.compute())
 
 # Testing end
 end = datetime.now()
