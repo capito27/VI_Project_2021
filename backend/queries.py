@@ -7,15 +7,22 @@ import data
 
 ########################
 # Processing
-def get_ratings_filtered(filter_list):
-    movies_conditions = get_movies_genres_conditions(True, filter_list["genres"])
+def get_ratings_filtered(filter_list, full=False):
+    if full and data.load_full:
+        ratings = data.ratings_big
+        movies = data.movies_big
+    else:
+        ratings = data.ratings_small
+        movies = data.movies_small
+
+    movies_conditions = get_movies_genres_conditions(True, filter_list["genres"], movies)
 
     if isinstance(movies_conditions, bool):
-        return data.ratings
+        return ratings
 
-    return data.ratings.where(
-        data.ratings.movieId.isin(
-            data.movies.movieId.where(movies_conditions).dropna().compute()
+    return ratings.where(
+        ratings.movieId.isin(
+            movies.movieId.where(movies_conditions).dropna().compute()
         )
     )
 
@@ -24,27 +31,29 @@ def get_views_groupby(column, ratings):
     return ratings[[column, "movieId"]].groupby(column).count()
 
 
-def get_movies_genres_conditions(previous_condition, genre_conditions):
+def get_movies_genres_conditions(previous_condition, genre_conditions, movies):
     for key, val in genre_conditions.items():
         if val:
-            previous_condition &= data.movies.genres.str.contains(key)
+            previous_condition &= movies.genres.str.contains(key)
         else:
-            previous_condition &= ~data.movies.genres.str.contains(key)
+            previous_condition &= ~movies.genres.str.contains(key)
 
     return previous_condition
 
 
 ########################
 # Data queries
-def get_movies():
-    return data.movies[["movieId", "title"]].compute().to_json(orient="records")
+def get_movies(full=False):
+    if full:
+        return data.movies_big[["movieId", "title"]].compute().to_json(orient="records")
+    return data.movies_small[["movieId", "title"]].compute().to_json(orient="records")
 
 
 def get_genres():
     return data.genres.to_json(orient="records")
 
 
-def get_views(to_groupby, ratings=data.ratings):
+def get_views(to_groupby, ratings):
     start = datetime.now()
     # Timing start
 

@@ -26,10 +26,12 @@ def get_views():
     print("==== Get view query ====")
     query = request.get_json()
 
+    isFull = query.get("full", False)
+
     start = datetime.now()
     # Timing start
 
-    filtered_views = queries.get_ratings_filtered(query["filters"]).compute()
+    filtered_views = queries.get_ratings_filtered(query["filters"], isFull).compute()
 
     # Timing end
     end = datetime.now()
