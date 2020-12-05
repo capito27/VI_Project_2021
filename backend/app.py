@@ -1,6 +1,7 @@
 from flask import Flask, request, Response
 from flask_json import FlaskJSON, as_json
 from flask_cors import CORS
+from datetime import datetime
 
 import queries
 
@@ -22,9 +23,18 @@ def get_genres():
 @app.route('/views', methods=["POST"])
 @as_json
 def get_views():
+    print("==== Get view query ====")
     query = request.get_json()
 
-    filtered_views = queries.get_ratings_filtered(query["filters"])
+    start = datetime.now()
+    # Timing start
+
+    filtered_views = queries.get_ratings_filtered(query["filters"]).compute()
+
+    # Timing end
+    end = datetime.now()
+    duration = end - start
+    print("Filter duration = " + str(duration))
 
     result = {}
     for grouping in query["queries"]:

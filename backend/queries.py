@@ -1,5 +1,6 @@
 from flask import jsonify
 import numpy as np
+from datetime import datetime
 
 import data
 
@@ -20,7 +21,7 @@ def get_ratings_filtered(filter_list):
 
 
 def get_views_groupby(column, ratings):
-    return ratings[[column, "movieId"]].groupby(column).count().compute()
+    return ratings[[column, "movieId"]].groupby(column).count()
 
 
 def get_movies_genres_conditions(previous_condition, genre_conditions):
@@ -44,18 +45,28 @@ def get_genres():
 
 
 def get_views(to_groupby, ratings=data.ratings):
+    start = datetime.now()
+    # Timing start
+
     if to_groupby == "month":
-        return views_per_month(ratings)
+        result = views_per_month(ratings)
     elif to_groupby == "week":
-        return views_per_week(ratings)
+        result = views_per_week(ratings)
     elif to_groupby == "day":
-        return "Unsupported"
+        result = "Unsupported"
     elif to_groupby == "dayofmonth":
-        return "Unsupported"
+        result = views_per_day_of_month(ratings)
     elif to_groupby == "dayofweek":
-        return views_per_day_of_week(ratings)
+        result = views_per_day_of_week(ratings)
     else:
-        return "Unsupported"
+        result = "Unsupported"
+
+    # Timing end
+    end = datetime.now()
+    duration = end - start
+    print(to_groupby + " duration = " + str(duration))
+
+    return result
 
 
 def views_per_month(ratings):
@@ -96,6 +107,20 @@ def views_per_week(ratings):
     for i in range(0, 52):
         values["data"][i] = int(weeks.loc[i + 1].iloc[0])
     values["data"][0] += int(weeks.loc[53].iloc[0])
+
+    return values
+
+
+def views_per_day_of_month(ratings):
+    values = {
+        "labels": np.arange(1, 32).tolist(),
+        "data": np.zeros(31).tolist()
+    }
+
+    days = get_views_groupby("day_of_month", ratings).reindex(np.arange(1, 32), fill_value=0)
+
+    for i in range(0, 31):
+        values["data"][i] = int(days.loc[i + 1].iloc[0])
 
     return values
 

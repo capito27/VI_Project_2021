@@ -24,6 +24,7 @@ ratings.timestamp = df.map_partitions(pd.to_datetime, ratings.timestamp, unit="s
 ratings["month"] = ratings.timestamp.dt.month
 ratings["week"] = ratings.timestamp.dt.isocalendar().week
 ratings["day_of_week"] = ratings.timestamp.dt.dayofweek
+ratings["day_of_month"] = ratings.timestamp.dt.day
 
 # Loading movies
 movies_dtypes = {
