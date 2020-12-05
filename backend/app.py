@@ -10,16 +10,23 @@ FlaskJSON(app)
 CORS(app)
 
 
-@app.route('/movies')
+# region GET /movies
+@app.route('/movies', methods=["GET"])
 def get_movies():
     return Response(queries.get_movies(), mimetype="application/json")
 
 
-@app.route('/genres')
+# endregion
+
+# region GET /genres
+@app.route('/genres', methods=["GET"])
 def get_genres():
     return Response(queries.get_genres(), mimetype="application/json")
 
 
+# endregion
+
+# region POST /views
 @app.route('/views', methods=["POST"])
 @as_json
 def get_views():
@@ -44,6 +51,8 @@ def get_views():
 
     return result
 
+
+# endregion
 
 if __name__ == "__main__":
     app.run()

@@ -7,8 +7,7 @@ import dask.dataframe as df
 # Set tp true to have big dataset
 load_full = False
 
-##########################
-# General variables
+# region General variables
 small_data_root = "static/dataset/small/"
 big_data_root = "static/dataset/big/"
 
@@ -29,9 +28,9 @@ movies_dtypes = {
     "genres": str,
 }
 movies_cols = [0, 1, 2]
+# endregion
 
-##########################
-# Data loading
+# region Data loading
 print("==== Start loading small ====")
 start = datetime.now()
 # Loading start
@@ -58,10 +57,9 @@ end = datetime.now()
 duration = end - start
 print("Loading big dataset duration = " + str(duration))
 print("==== End loading big ====")
-##########################
+# endregion
 
-##########################
-# Data processing
+# region Data processing
 print("==== Processing small ====")
 start = datetime.now()
 # Loading start
@@ -106,10 +104,9 @@ end = datetime.now()
 duration = end - start
 print("Processing big dataset duration = " + str(duration))
 print("==== Processing big ====")
-##########################
+# endregion
 
-##########################
-# Testing
+# region Testing
 print("==== Start Testing ====")
 start = datetime.now()
 # Testing start
@@ -120,4 +117,4 @@ end = datetime.now()
 duration = end - start
 print("Testing duration = " + str(duration))
 print("==== End Testing ====")
-##########################
+# endregion

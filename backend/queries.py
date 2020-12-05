@@ -5,8 +5,7 @@ from datetime import datetime
 import data
 
 
-########################
-# Processing
+# region == Processing
 def get_ratings_filtered(filter_list, full=False):
     if full and data.load_full:
         ratings = data.ratings_big
@@ -41,8 +40,9 @@ def get_movies_genres_conditions(previous_condition, genre_conditions, movies):
     return previous_condition
 
 
-########################
-# Data queries
+# endregion
+
+# region == Queries
 def get_movies(full=False):
     if full:
         return data.movies_big[["movieId", "title"]].compute().to_json(orient="records")
@@ -154,3 +154,4 @@ def views_per_day_of_week(ratings):
         values["data"][i] = int(day_of_week.loc[i + 1].iloc[0])
 
     return values
+# endregion
