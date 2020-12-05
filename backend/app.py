@@ -4,6 +4,7 @@ from flask_cors import CORS
 from datetime import datetime
 
 import queries
+import data
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -26,6 +27,19 @@ def get_genres():
 
 # endregion
 
+# region POST /ratings/timestamp/bounds
+@app.route("/ratings/timestamp/bounds", methods=["POST"])
+@as_json
+def get_ratings_timestamp_bounds():
+    params = request.get_json()
+
+    is_full = params.get("full", False)
+
+    return queries.get_ratings_timestamp_bounds(is_full)
+
+
+# endregion
+
 # region POST /views
 @app.route('/views', methods=["POST"])
 @as_json
@@ -37,8 +51,10 @@ def get_views():
 
     start = datetime.now()
     # Timing start
-
-    filtered_views = queries.get_ratings_filtered(query["filters"], is_full).compute()
+    if "filters" in query:
+        filtered_views = queries.get_ratings_filtered(query["filters"], is_full).compute()
+    else:
+        filtered_views = data.ratings_big.compute() if is_full else data.ratings_small.compute()
 
     # Timing end
     end = datetime.now()

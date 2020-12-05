@@ -5,7 +5,7 @@ import dask
 import dask.dataframe as df
 
 # Set tp true to have big dataset
-load_full = False
+load_full = True
 
 # region General variables
 small_data_root = "static/dataset/small/"
@@ -64,11 +64,14 @@ print("==== Processing small ====")
 start = datetime.now()
 # Loading start
 
-ratings_small.timestamp = df.map_partitions(pd.to_datetime, ratings_small.timestamp, unit="s")
-ratings_small["month"] = ratings_small.timestamp.dt.month
-ratings_small["week"] = ratings_small.timestamp.dt.isocalendar().week
-ratings_small["day_of_week"] = ratings_small.timestamp.dt.dayofweek
-ratings_small["day_of_month"] = ratings_small.timestamp.dt.day
+ratings_small["datetime"] = df.map_partitions(pd.to_datetime, ratings_small.timestamp, unit="s")
+ratings_small["month"] = ratings_small.datetime.dt.month
+ratings_small["week"] = ratings_small.datetime.dt.isocalendar().week
+ratings_small["day_of_week"] = ratings_small.datetime.dt.dayofweek
+ratings_small["day_of_month"] = ratings_small.datetime.dt.day
+
+ratings_small_timestamp_min = ratings_small.timestamp.min().compute()
+ratings_small_timestamp_max = ratings_small.timestamp.max().compute()
 
 movies_small["genres_array"] = movies_small.genres.str.split("|")
 
@@ -86,11 +89,14 @@ start = datetime.now()
 # Loading start
 
 if load_full:
-    ratings_big.timestamp = df.map_partitions(pd.to_datetime, ratings_big.timestamp, unit="s")
-    ratings_big["month"] = ratings_big.timestamp.dt.month
-    ratings_big["week"] = ratings_big.timestamp.dt.isocalendar().week
-    ratings_big["day_of_week"] = ratings_big.timestamp.dt.dayofweek
-    ratings_big["day_of_month"] = ratings_big.timestamp.dt.day
+    ratings_big["datetime"] = df.map_partitions(pd.to_datetime, ratings_big.timestamp, unit="s")
+    ratings_big["month"] = ratings_big.datetime.dt.month
+    ratings_big["week"] = ratings_big.datetime.dt.isocalendar().week
+    ratings_big["day_of_week"] = ratings_big.datetime.dt.dayofweek
+    ratings_big["day_of_month"] = ratings_big.datetime.dt.day
+
+    ratings_big_timestamp_min = ratings_big.timestamp.min().compute()
+    ratings_big_timestamp_max = ratings_big.timestamp.max().compute()
 
     movies_big["genres_array"] = movies_big.genres.str.split("|")
 
@@ -110,7 +116,6 @@ print("==== Processing big ====")
 print("==== Start Testing ====")
 start = datetime.now()
 # Testing start
-
 
 # Testing end
 end = datetime.now()

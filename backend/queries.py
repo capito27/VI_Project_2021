@@ -14,14 +14,16 @@ def get_ratings_filtered(filter_list, full=False):
         ratings = data.ratings_small
         movies = data.movies_small
 
-    movies_conditions = get_movies_genres_conditions(True, filter_list["genres"], movies)
+    conditions = True
+    if "genres" in filter_list:
+        conditions = get_movies_genres_conditions(conditions, filter_list["genres"], movies)
 
-    if isinstance(movies_conditions, bool):
+    if isinstance(conditions, bool):
         return ratings
 
     return ratings.where(
         ratings.movieId.isin(
-            movies.movieId.where(movies_conditions).dropna().compute()
+            movies.movieId.where(conditions).dropna().compute()
         )
     )
 
@@ -44,13 +46,26 @@ def get_movies_genres_conditions(previous_condition, genre_conditions, movies):
 
 # region == Queries
 def get_movies(full=False):
-    if full:
+    if full and data.load_full:
         return data.movies_big[["movieId", "title"]].compute().to_json(orient="records")
     return data.movies_small[["movieId", "title"]].compute().to_json(orient="records")
 
 
 def get_genres():
     return data.genres.to_json(orient="records")
+
+
+def get_ratings_timestamp_bounds(full):
+    if full and data.load_full:
+        return {
+            "min": int(data.ratings_big_timestamp_min),
+            "max": int(data.ratings_big_timestamp_max)
+        }
+
+    return {
+        "min": int(data.ratings_small_timestamp_min),
+        "max": int(data.ratings_small_timestamp_max)
+    }
 
 
 def get_views(to_groupby, ratings):
@@ -148,10 +163,10 @@ def views_per_day_of_week(ratings):
         "data": np.zeros(7).tolist()
     }
 
-    day_of_week = get_views_groupby("day_of_week", ratings).reindex(np.arange(1, 8), fill_value=0)
+    day_of_week = get_views_groupby("day_of_week", ratings).reindex(np.arange(0, 7), fill_value=0)
 
     for i in range(0, 7):
-        values["data"][i] = int(day_of_week.loc[i + 1].iloc[0])
+        values["data"][i] = int(day_of_week.loc[i].iloc[0])
 
     return values
 # endregion
