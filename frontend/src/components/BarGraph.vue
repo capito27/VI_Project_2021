@@ -1,34 +1,22 @@
 <template>
-  <div v-if="$store.state.loading === 0">
-    <highcharts :options="chartOptions" />
-  </div>
+  <highcharts
+    ref="bargraph"
+    :options="chartOptions"
+  />
 </template>
 
 <script>
 export default {
-  name: "AverageRatingsPerDayOfWeek",
+  name: "BarGraph",
   props: {
     title: {
       type: String,
+      required: true,
+    },
+    data: {
+      type: Object,
       required: true
     },
-    values: {
-      type: Array,
-      required: true
-    },
-  },
-  data: function () {
-    return {
-      labels: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-      ]
-    }
   },
   computed: {
     chartOptions: function () {
@@ -40,7 +28,7 @@ export default {
           text: this.title
         },
         xAxis: {
-          categories: this.labels,
+          categories: this.data.labels,
           crosshair: true,
         },
         yAxis: {
@@ -55,7 +43,7 @@ export default {
             borderWidth: 0
           }
         },
-        series: this.values
+        series: this.data
       }
     }
   },

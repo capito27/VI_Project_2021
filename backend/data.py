@@ -75,6 +75,8 @@ ratings_small_timestamp_max = ratings_small.timestamp.max().compute()
 
 movies_small["genres_array"] = movies_small.genres.str.split("|")
 
+genres = movies_small["genres_array"].explode().unique().compute()
+
 print("Small ratings length: " + str(len(ratings_small)))
 print("Small movies length: " + str(len(movies_small)))
 
