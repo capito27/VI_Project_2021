@@ -3,7 +3,7 @@
     <h2>Distribution</h2>
     <mdb-row>
       <mdb-col col="12">
-        <BarGraph
+        <RadarGraph
           v-show="!loading.viewsPerMonth"
           title="Average views per months"
           :series="ViewsPerMonth"
@@ -44,6 +44,7 @@ import {
 import LoadingSpinner from "@/components/LoadingSpinner";
 import {mapGetters, mapState} from 'vuex';
 import BarGraph from "@/components/BarGraph";
+import RadarGraph from "@/components/RadarGraph";
 import TriStateButton from "@/components/TriStateButton";
 
 export default {
@@ -55,6 +56,7 @@ export default {
     mdbCol,
     LoadingSpinner,
     BarGraph,
+    RadarGraph,
   },
   data() {
     return {}

@@ -5,6 +5,10 @@ import 'mdbvue/lib/css/mdb.min.css'
 import Vue from 'vue'
 import Vuex, {mapState} from 'vuex'
 import HighchartsVue from "highcharts-vue";
+import Highcharts from 'highcharts'
+import More from 'highcharts/highcharts-more'
+
+More(Highcharts)
 
 import App from './App.vue'
 import router from './router'

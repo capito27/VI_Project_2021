@@ -1,13 +1,14 @@
 <template>
-  <highcharts
-      ref="bargraph"
-      :options="graphData"
-  />
+    <highcharts
+        ref="radar-graph"
+        :options="graphData"
+    />
 </template>
 
 <script>
+
 export default {
-  name: "BarGraph",
+  name: "RadarGraph",
   props: {
     title: {
       type: String,
@@ -16,53 +17,60 @@ export default {
     series: {
       type: Object,
       required: true,
-    },
+    }
   },
   data: function () {
     return {
       chartOptions: {
         chart: {
-          type: 'column',
+          polar: true
         },
         title: {
           text: this.title
         },
+        pane: {
+          startAngle: 0,
+          endAngle: 360
+        },
         xAxis: {
-          categories: [],
-          crosshair: true,
+          tickInterval: 1,
+          min: 0,
+          max: 12
         },
         yAxis: {
-          min: 0,
-          title: {
-            text: "Views"
-          }
+          min: 0
         },
         plotOptions: {
+          series: {
+            pointStart: 0,
+            pointInterval: 1
+          },
           column: {
-            pointPadding: 0.2,
-            borderWidth: 0
+            pointPadding: 0.05,
+            groupPadding: 0
           }
         },
         series: []
       }
-    };
+    }
   },
   computed: {
     graphData: function () {
       let data = this.chartOptions
       data.series = [{
+        type: "column",
+        name: "Overall",
         data: this.series.data,
-        name: "Overall"
       }]
       data.xAxis.categories = this.series.labels
       return data
     }
   },
   mounted() {
-  },
-  methods: {}
+  }
 }
 </script>
 
-<style>
+<style scoped>
+
 </style>
