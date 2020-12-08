@@ -33,7 +33,7 @@ def get_views_groupby(column, ratings):
 
 
 def get_movies_genres_conditions(previous_condition, genre_conditions, movies):
-    if type(genre_conditions) == 'dict':
+    if isinstance(genre_conditions, dict):
         for key, val in genre_conditions.items():
             if val:
                 previous_condition &= movies.genres.str.contains(key)
