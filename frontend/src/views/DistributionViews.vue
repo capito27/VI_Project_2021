@@ -6,7 +6,7 @@
         <BarGraph
           v-show="!loading.viewsPerMonth"
           title="Average views per months"
-          :data="ViewsPerMonth"
+          :series="ViewsPerMonth"
         />
         <LoadingSpinner v-show="loading.viewsPerMonth" />
       </mdb-col>
@@ -15,7 +15,7 @@
         <BarGraph
           v-show="!loading.viewsPerWeek"
           title="Average views per weeks of year"
-          :data="ViewsPerWeek"
+          :series="ViewsPerWeek"
         />
         <LoadingSpinner v-show="loading.viewsPerWeek" />
       </mdb-col>
@@ -24,7 +24,7 @@
         <BarGraph
           v-show="!loading.viewsPerDayOfWeek"
           title="Average views per days of week"
-          :data="ViewsPerDayOfWeek"
+          :series="ViewsPerDayOfWeek"
         />
         <LoadingSpinner v-show="loading.viewsPerDayOfWeek" />
       </mdb-col>

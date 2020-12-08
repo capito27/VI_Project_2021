@@ -1,7 +1,7 @@
 <template>
   <highcharts
-    ref="bargraph"
-    :options="chartOptions"
+      ref="bargraph"
+      :options="graphData"
   />
 </template>
 
@@ -13,14 +13,14 @@ export default {
       type: String,
       required: true,
     },
-    data: {
+    series: {
       type: Object,
-      required: true
+      required: true,
     },
   },
-  computed: {
-    chartOptions: function () {
-      return {
+  data: function () {
+    return {
+      chartOptions: {
         chart: {
           type: 'column',
         },
@@ -28,7 +28,7 @@ export default {
           text: this.title
         },
         xAxis: {
-          categories: this.data.labels,
+          categories: [],
           crosshair: true,
         },
         yAxis: {
@@ -43,13 +43,25 @@ export default {
             borderWidth: 0
           }
         },
-        series: this.data
+        series: []
       }
+    };
+  },
+  computed: {
+    graphData: function () {
+      let data = this.chartOptions
+      data.series = [{
+        data: this.series.data,
+        name: "Overall"
+      }]
+      data.xAxis.categories = this.series.labels
+      return data
     }
   },
   mounted() {
   },
-  methods: {}
+  methods: {
+  }
 }
 </script>
 
