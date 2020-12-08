@@ -1,7 +1,7 @@
 <template>
   <highcharts
-      ref="bargraph"
-      :options="graphData"
+    ref="bargraph"
+    :options="graphData"
   />
 </template>
 

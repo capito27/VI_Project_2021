@@ -28,6 +28,9 @@
         />
         <LoadingSpinner v-show="loading.viewsPerDayOfWeek" />
       </mdb-col>
+      <mdb-col col="12">
+        <TriStateButton />
+      </mdb-col>
     </mdb-row>
   </mdb-container>
 </template>
@@ -41,10 +44,12 @@ import {
 import LoadingSpinner from "@/components/LoadingSpinner";
 import {mapGetters, mapState} from 'vuex';
 import BarGraph from "@/components/BarGraph";
+import TriStateButton from "@/components/TriStateButton";
 
 export default {
   name: "DistributionViews",
   components: {
+    TriStateButton,
     mdbContainer,
     mdbRow,
     mdbCol,
@@ -52,8 +57,7 @@ export default {
     BarGraph,
   },
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     ...mapState({
@@ -63,8 +67,7 @@ export default {
   },
   mounted() {
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
