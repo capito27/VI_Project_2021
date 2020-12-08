@@ -15,13 +15,13 @@ export const store = new Vuex.Store({
         ratingsPerDayOfMonth: {data: [], labels: []},
         ratingsPerDayOfWeek: {data: [], labels: []},
         genres_filter: {},
-        periods_filter: {
+        ratingsTimeRange: {
             min: 0,
             max: Number.MAX_SAFE_INTEGER,
             from: 0,
             to: Number.MAX_SAFE_INTEGER,
         },
-        useFullDataset: true,
+        useFullDataset: false,
         loading: {
             viewsPerMonth: false,
             viewsPerWeek: false,
@@ -45,8 +45,16 @@ export const store = new Vuex.Store({
                 state.genres_filter[field] = null;
             }
         },
-        setGenreFilter(state, filter, value) {
-            state.genres_filter[filter] = value
+        setGenreFilter(state, payload) {
+            state.genres_filter[payload.filter] = payload.value
+        },
+        setRatingTimeRange(state, payload) {
+            state.ratingsTimeRange.from = payload.from;
+            state.ratingsTimeRange.to = payload.to;
+        },
+        setRatingTimeBounds(state, payload) {
+            state.ratingsTimeRange.min = payload.min;
+            state.ratingsTimeRange.max = payload.max;
         },
         startLoading(state, prop) {
             if (state.loading.hasOwnProperty(prop))
@@ -57,7 +65,7 @@ export const store = new Vuex.Store({
                 state.loading[prop] = false;
         }
     },
-    getters : {
+    getters: {
         ViewsPerMonth: state => state.viewsPerMonth,
         ViewsPerWeek: state => state.viewsPerWeek,
         ViewsPerDayOfMonth: state => state.viewsPerDayOfMonth,
@@ -66,16 +74,18 @@ export const store = new Vuex.Store({
         RatingsPerWeek: state => state.ratingsPerWeek,
         RatingsPerDayOfMonth: state => state.ratingsPerDayOfMonth,
         RatingsPerDayOfWeek: state => state.ratingsPerDayOfWeek,
+        GenresFilter: state => state.genres_filter,
+        RatingsTimeRange: state => state.ratingsTimeRange
     },
     actions: {
         async getViews(ctx, queries) {
-            let period = ctx.state.periods_filter;
-            delete period.min;
-            delete period.max;
+            let timeRange = ctx.state.ratingsTimeRange;
+            delete timeRange.min;
+            delete timeRange.max;
             for (let query of queries)
                 ctx.commit('startLoading', "viewsPer" + query);
-
-            let res = await api.getViews(ctx.state.useFullDataset, ctx.state.genres_filter, period, queries.map(v => v.toLowerCase()));
+            console.log(ctx.state.genres_filter);
+            let res = await api.getViews(ctx.state.useFullDataset, ctx.state.genres_filter, timeRange, queries.map(v => v.toLowerCase()));
 
             for (let query of queries) {
                 if (res.status === 200) {
@@ -85,13 +95,13 @@ export const store = new Vuex.Store({
             }
         },
         async getRatings(ctx, queries) {
-            let period = ctx.state.periods_filter;
-            delete period.min;
-            delete period.max;
+            let timeRange = ctx.state.ratingsTimeRange;
+            delete timeRange.min;
+            delete timeRange.max;
             for (let query of queries)
                 ctx.commit('startLoading', "ratingsPer" + query);
 
-            let res = await api.getRatings(ctx.state.useFullDataset, ctx.state.genres_filter, period, queries.map(v => v.toLowerCase()));
+            let res = await api.getRatings(ctx.state.useFullDataset, ctx.state.genres_filter, timeRange, queries.map(v => v.toLowerCase()));
 
             for (let query of queries) {
                 if (res.status === 200) {
@@ -102,10 +112,15 @@ export const store = new Vuex.Store({
         },
         async getGenres(ctx) {
             let res = await api.getGenres();
-            for (let genre of res.data) {
-                ctx.state.genres_filter[genre] = null
+            if (res.status === 200) {
+                ctx.commit('initGenreFilter', res.data);
             }
-            console.log(ctx.state.genres_filter)
         },
+        async getRatingsTimeBounds(ctx) {
+            let res = await api.getRatingsTimeRange(ctx.state.useFullDataset);
+            if (res.status === 200) {
+                ctx.commit('setRatingTimeRange', res.data);
+            }
+        }
     }
 });

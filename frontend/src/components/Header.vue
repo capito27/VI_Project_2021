@@ -11,6 +11,7 @@
       >
         Movies Statistics
       </mdb-navbar-brand>
+      <DatasetControllerModal />
       <mdb-navbar-toggler>
         <mdb-navbar-nav>
           <mdb-nav-item
@@ -42,10 +43,12 @@ import {
   mdbNavbarNav,
   mdbNavItem,
 } from 'mdbvue';
+import DatasetControllerModal from "@/components/DatasetControllerModal";
 
 export default {
   name: "Header",
   components: {
+    DatasetControllerModal,
     mdbContainer,
     mdbNavbar,
     mdbNavbarBrand,

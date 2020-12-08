@@ -8,7 +8,7 @@
     <span
       ref="label"
       class="label"
-    >{{ label }}</span>
+    />
   </div>
 </template>
 
@@ -29,31 +29,49 @@ export default {
     id: {
       type: String,
       default: ""
-    }
+    },
+    // eslint-disable-next-line vue/require-prop-types
+    initial: {
+      default: null
+    },
   },
   data: function () {
-    return {label: this.labels[0]};
+    return {};
+  },
+  mounted() {
+    this.setState(this.initial, this.$refs.input);
   },
   methods: {
     clicked: function () {
       let elem = this.$refs.input;
 
       if (elem.classList.contains('positive')) {
+        this.setState(false, elem);
+        this.callback(this.id, false);
+      } else if (elem.classList.contains('negative')) {
+        this.setState(null, elem);
+        this.callback(this.id, null);
+      } else {
+        this.setState(true, elem);
+        this.callback(this.id, true);
+      }
+    },
+    setState(state, elem){
+      if (state === true) {
+        elem.classList.remove('negative');
+        elem.classList.add('positive');
+        elem.innerHTML = '<svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="10.9375%"><path d="M2 20 L12 28 30 4" /></svg>';
+        this.$refs.label.textContent = this.labels[0];
+      } else if (state === false) {
         elem.classList.remove('positive');
         elem.classList.add('negative');
         elem.innerHTML = '<svg id="i-close" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="10.9375%"><path d="M2 30 L30 2 M30 30 L2 2" /></svg>';
-        this.callback(false, this.id);
         this.$refs.label.textContent = this.labels[1];
-      } else if (elem.classList.contains('negative')) {
-        elem.classList.remove('negative');
-        elem.innerHTML = '';
-        this.callback(null, this.id);
-        this.$refs.label.textContent = this.labels[2];
       } else {
-        elem.classList.add('positive');
-        elem.innerHTML = '<svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="10.9375%"><path d="M2 20 L12 28 30 4" /></svg>';
-        this.callback(true, this.id);
-        this.$refs.label.textContent = this.labels[0];
+        elem.classList.remove('negative');
+        elem.classList.remove('positive');
+        elem.innerHTML = '';
+        this.$refs.label.textContent = this.labels[2];
       }
     }
   }
