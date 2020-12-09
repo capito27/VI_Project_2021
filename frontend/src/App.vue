@@ -15,6 +15,7 @@ export default {
   },
   beforeMount() {
     this.$store.dispatch('getGenres');
+    this.$store.dispatch('getRatingsTimeBounds');
     //this.$store.dispatch('getRatings', ['Month', 'Week', 'DayOfMonth', 'DayOfWeek']);
     this.$store.dispatch('getViews', ['Month', 'Week', 'DayOfMonth', 'DayOfWeek']);
   },

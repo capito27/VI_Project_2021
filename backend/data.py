@@ -6,7 +6,6 @@ import dask.dataframe as df
 
 # Set tp true to have big dataset
 load_full = True
-load_full = False
 
 # region General variables
 small_data_root = "static/dataset/small/"

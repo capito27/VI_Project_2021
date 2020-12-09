@@ -7,6 +7,9 @@ import Vuex, {mapState} from 'vuex'
 import HighchartsVue from "highcharts-vue";
 import Highcharts from 'highcharts'
 import More from 'highcharts/highcharts-more'
+import ToggleButton from 'vue-js-toggle-button'
+
+
 
 More(Highcharts)
 
@@ -20,6 +23,7 @@ Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(HighchartsVue);
+Vue.use(ToggleButton);
 
 new Vue({
     el: '#app',

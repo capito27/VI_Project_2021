@@ -1,8 +1,8 @@
 <template>
-    <highcharts
-        ref="radar-graph"
-        :options="graphData"
-    />
+  <highcharts
+    ref="radar-graph"
+    :options="graphData"
+  />
 </template>
 
 <script>
