@@ -14,18 +14,33 @@ def get_ratings_filtered(filter_list, full=False):
         ratings = data.ratings_small
         movies = data.movies_small
 
-    conditions = True
+    movie_conditions = True
+    ratings_conditions = True
+
     if "genres" in filter_list:
-        conditions = get_movies_genres_conditions(conditions, filter_list["genres"], movies)
+        movie_conditions = get_movies_genres_conditions(movie_conditions, filter_list["genres"], movies)
+    if "period" in filter_list:
+        ratings_conditions = get_period_conditions(ratings_conditions, filter_list["period"], ratings)
 
-    if isinstance(conditions, bool):
-        return ratings
-
-    return ratings.where(
-        ratings.movieId.isin(
-            movies.movieId.where(conditions).dropna().compute()
+    if not isinstance(movie_conditions, bool) and not isinstance(ratings_conditions, bool):
+        ratings = ratings.where(
+            ratings_conditions &
+            ratings.movieId.isin(
+                movies.movieId.where(movie_conditions).dropna().compute()
+            )
         )
-    )
+
+    elif not isinstance(ratings_conditions, bool):
+        ratings = ratings.where(ratings_conditions)
+
+    elif not isinstance(movie_conditions, bool):
+        ratings = ratings.where(
+            ratings.movieId.isin(
+                movies.movieId.where(movie_conditions).dropna().compute()
+            )
+        )
+
+    return ratings
 
 
 def get_views_groupby(column, ratings):
@@ -39,6 +54,16 @@ def get_movies_genres_conditions(previous_condition, genre_conditions, movies):
                 previous_condition &= movies.genres.str.contains(key)
             else:
                 previous_condition &= ~movies.genres.str.contains(key)
+
+    return previous_condition
+
+
+def get_period_conditions(previous_condition, period, ratings):
+    if isinstance(period, dict):
+        min_condition = ratings.timestamp.ge(int(period["from"]))
+        max_condition = ratings.timestamp.le(int(period["to"]))
+
+        previous_condition &= (min_condition & max_condition)
 
     return previous_condition
 
