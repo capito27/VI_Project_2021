@@ -110,7 +110,7 @@
               <mdb-col col="12">
                 <h5>Filter by review score</h5>
               </mdb-col>
-              <mdb-col col="12">
+              <mdb-col col="12" class="my-1">
                 <mdb-row>
                   <mdb-col
                     col="4"
@@ -131,7 +131,7 @@
                 </mdb-row>
               </mdb-col>
 
-              <mdb-col col="12">
+              <mdb-col col="12" class="my-1">
                 <mdb-row>
                   <mdb-col
                     col="4"
