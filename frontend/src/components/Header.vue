@@ -11,7 +11,11 @@
       >
         Movies Statistics
       </mdb-navbar-brand>
-      <DatasetControllerModal />
+
+      <mdb-form-inline>
+        <DatasetControllerModal />
+      </mdb-form-inline>
+
       <mdb-navbar-toggler>
         <mdb-navbar-nav>
           <mdb-nav-item
@@ -42,6 +46,7 @@ import {
   mdbNavbarToggler,
   mdbNavbarNav,
   mdbNavItem,
+  mdbFormInline,
 } from 'mdbvue';
 import DatasetControllerModal from "@/components/DatasetControllerModal";
 
@@ -55,6 +60,7 @@ export default {
     mdbNavbarToggler,
     mdbNavbarNav,
     mdbNavItem,
+    mdbFormInline,
   }
 }
 </script>

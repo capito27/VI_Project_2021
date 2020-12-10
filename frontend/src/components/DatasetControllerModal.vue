@@ -8,8 +8,8 @@
     </mdb-btn>
     <mdb-modal
       :show="modal"
-      @close="close"
       scrollable
+      @close="close"
     >
       <mdb-modal-header>
         <mdb-modal-title>Dataset control panel</mdb-modal-title>
@@ -48,14 +48,18 @@
                   >
                     From :
                   </mdb-col>
-                  <mdb-col class="my-auto">
+                  <mdb-col
+                    col="6"
+                    class="my-auto"
+                  >
                     <date-picker
                       v-model="from"
+                      placeholder="Choose from date"
                       :config="options"
                     />
                   </mdb-col>
                   <mdb-col
-                    col="auto"
+                    col="4"
                     class="my-auto"
                   >
                     <mdb-btn
@@ -75,14 +79,18 @@
                   >
                     To :
                   </mdb-col>
-                  <mdb-col class="my-auto">
+                  <mdb-col
+                    col="6"
+                    class="my-auto"
+                  >
                     <date-picker
+                      placeholder="Choose from date"
                       v-model="to"
                       :config="options"
                     />
                   </mdb-col>
                   <mdb-col
-                    col="auto"
+                    col="4"
                     class="my-auto"
                   >
                     <mdb-btn
@@ -160,8 +168,6 @@ import {
   mdbModalBody,
   mdbModalFooter,
   mdbBtn,
-  mdbAccordion,
-  mdbAccordionPane,
   mdbRow,
   mdbCol,
 } from 'mdbvue';
@@ -183,8 +189,6 @@ export default {
     mdbModalBody,
     mdbModalFooter,
     mdbBtn,
-    mdbAccordion,
-    mdbAccordionPane,
     mdbRow,
     mdbCol,
     datePicker
