@@ -9,84 +9,132 @@
     <mdb-modal
       :show="modal"
       @close="close"
+      scrollable
     >
       <mdb-modal-header>
         <mdb-modal-title>Dataset control pannel</mdb-modal-title>
       </mdb-modal-header>
+
       <mdb-modal-body>
-        <h5>Chose dataset to use</h5>
-        <toggle-button
-          :value="fullDataset"
-          :labels="{checked: 'Use Full Dataset', unchecked: 'Use Test Dataset'}"
-          :width="120"
-          @change="updateDatasetToUse"
-        />
-        <hr>
-        <h5>Filter by review date</h5>
-        <div class="container d-flex align-items-center justify-content-center">
-          <div class="row">
-            <div class="col-sm">
-              From :
-            </div>
-            <div class="col-sm-6">
-              <date-picker
-                v-model="from"
-                :config="options"
-              />
-            </div>
-            <div class="col-sm">
-              <mdb-btn
-                color="primary"
-                @click="resetFromBound"
+        <mdb-row>
+          <mdb-col col="12">
+            <mdb-row>
+              <mdb-col col="12">
+                <h5> Chose dataset to use </h5>
+              </mdb-col>
+              <mdb-col col="12">
+                <toggle-button
+                  :value="fullDataset"
+                  :labels="{checked: 'Use Full Dataset', unchecked: 'Use Test Dataset'}"
+                  :width="150"
+                  :height="30"
+                  @change="updateDatasetToUse"
+                />
+              </mdb-col>
+            </mdb-row>
+            <hr>
+          </mdb-col>
+
+          <mdb-col col="12">
+            <mdb-row>
+              <mdb-col col="12">
+                <h5>Filter by review date</h5>
+              </mdb-col>
+              <mdb-col col="12">
+                <mdb-row>
+                  <mdb-col
+                    col="2"
+                    class="my-auto text-left"
+                  >
+                    From :
+                  </mdb-col>
+                  <mdb-col class="my-auto">
+                    <date-picker
+                      v-model="from"
+                      :config="options"
+                    />
+                  </mdb-col>
+                  <mdb-col
+                    col="auto"
+                    class="my-auto"
+                  >
+                    <mdb-btn
+                      color="primary"
+                      @click="resetFromBound"
+                    >
+                      Reset
+                    </mdb-btn>
+                  </mdb-col>
+                </mdb-row>
+              </mdb-col>
+              <mdb-col col="12">
+                <mdb-row>
+                  <mdb-col
+                    col="2"
+                    class="my-auto text-left"
+                  >
+                    To :
+                  </mdb-col>
+                  <mdb-col class="my-auto">
+                    <date-picker
+                      v-model="to"
+                      :config="options"
+                    />
+                  </mdb-col>
+                  <mdb-col
+                    col="auto"
+                    class="my-auto"
+                  >
+                    <mdb-btn
+                      color="primary"
+                      @click="resetToBound"
+                    >
+                      Reset
+                    </mdb-btn>
+                  </mdb-col>
+                </mdb-row>
+              </mdb-col>
+            </mdb-row>
+            <hr>
+          </mdb-col>
+
+          <mdb-col col="12">
+            <mdb-col col="12">
+              <h5>Filter by movie genre</h5>
+            </mdb-col>
+            <mdb-col col="12">
+              <mdb-row
+                v-for="(value, genre) in GenresFilter"
+                :key="genre"
+                class="justify-content-start my-1"
+                :genre="genre"
+                :value="value"
+                col="12"
               >
-                Reset
-              </mdb-btn>
-            </div>
-          </div>
-          <div class="row ">
-            <div class="col-sm">
-              To :
-            </div>
-            <div class="col-sm-6">
-              <date-picker
-                v-model="to"
-                :config="options"
-              />
-            </div>
-            <div class="col-sm">
-              <mdb-btn
-                color="primary"
-                @click="resetToBound"
-              >
-                Reset
-              </mdb-btn>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <h5>Filter by movie genre</h5>
-        <tbody>
-          <tr
-            v-for="(value, genre) in GenresFilter"
-            :key="genre"
-            :genre="genre"
-            :value="value"
-          >
-            <td style="text-align: right">
-              {{ genre }}
-            </td>
-            <td style="text-align: left">
-              <TriStateButton
-                :id="genre"
-                :labels="['Include', 'Exclude', 'Ignore']"
-                :initial="value"
-                :callback="genreCallback"
-              />
-            </td>
-          </tr>
-        </tbody>
+                <mdb-col
+                  col="6"
+                  class="my-auto text-left"
+                >
+                  {{ genre }}
+                </mdb-col>
+                <mdb-col
+                  col="6"
+                  class="my-auto text-left"
+                >
+                  <TriStateButton
+                    :id="genre"
+                    :labels="['Include', 'Exclude', 'Ignore']"
+                    :initial="value"
+                    :callback="genreCallback"
+                  />
+                </mdb-col>
+              </mdb-row>
+            </mdb-col>
+          </mdb-col>
+        </mdb-row>
       </mdb-modal-body>
-      <mdb-modal-footer>
+
+      <mdb-modal-footer center>
         <mdb-btn
           color="secondary"
           @click="close"
@@ -112,6 +160,10 @@ import {
   mdbModalBody,
   mdbModalFooter,
   mdbBtn,
+  mdbAccordion,
+  mdbAccordionPane,
+  mdbRow,
+  mdbCol,
 } from 'mdbvue';
 
 import datePicker from 'vue-bootstrap-datetimepicker';
@@ -131,6 +183,10 @@ export default {
     mdbModalBody,
     mdbModalFooter,
     mdbBtn,
+    mdbAccordion,
+    mdbAccordionPane,
+    mdbRow,
+    mdbCol,
     datePicker
   },
   data() {
