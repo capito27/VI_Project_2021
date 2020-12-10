@@ -12,7 +12,7 @@
       scrollable
     >
       <mdb-modal-header>
-        <mdb-modal-title>Dataset control pannel</mdb-modal-title>
+        <mdb-modal-title>Dataset control panel</mdb-modal-title>
       </mdb-modal-header>
 
       <mdb-modal-body>
