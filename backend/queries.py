@@ -21,6 +21,8 @@ def get_ratings_filtered(filter_list, full=False):
         movie_conditions = get_movies_genres_conditions(movie_conditions, filter_list["genres"], movies)
     if "period" in filter_list:
         ratings_conditions = get_period_conditions(ratings_conditions, filter_list["period"], ratings)
+    if "ratings" in filter_list:
+        ratings_conditions = get_ratings_conditions(ratings_conditions, filter_list["ratings"], ratings)
 
     if not isinstance(movie_conditions, bool) and not isinstance(ratings_conditions, bool):
         ratings = ratings.where(
@@ -62,6 +64,16 @@ def get_period_conditions(previous_condition, period, ratings):
     if isinstance(period, dict):
         min_condition = ratings.timestamp.ge(int(period["from"]))
         max_condition = ratings.timestamp.le(int(period["to"]))
+
+        previous_condition &= (min_condition & max_condition)
+
+    return previous_condition
+
+
+def get_ratings_conditions(previous_condition, ratings_params, ratings):
+    if isinstance(ratings_params, dict):
+        min_condition = ratings.rating.ge(ratings_params["min"])
+        max_condition = ratings.rating.le(ratings_params["max"])
 
         previous_condition &= (min_condition & max_condition)
 
