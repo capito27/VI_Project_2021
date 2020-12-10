@@ -21,6 +21,10 @@ export const store = new Vuex.Store({
             from: 0,
             to: Number.MAX_SAFE_INTEGER,
         },
+        ratingsFilter: {
+            min: 0.5,
+            max: 5,
+        },
         useFullDataset: false,
         loading: {
             viewsPerMonth: false,
@@ -66,8 +70,14 @@ export const store = new Vuex.Store({
             if (state.loading.hasOwnProperty(prop))
                 state.loading[prop] = false;
         },
-        setUseFullDataset(state, isFull){
+        setUseFullDataset(state, isFull) {
             state.useFullDataset = isFull;
+        },
+        setRatingsFilter(state, payload) {
+            if (payload.min)
+                state.ratingsFilter.min = payload.min;
+            if (payload.max)
+                state.ratingsFilter.max = payload.max;
         }
     },
     getters: {
@@ -91,8 +101,7 @@ export const store = new Vuex.Store({
             delete timeRange.max;
             for (let query of queries)
                 ctx.commit('startLoading', "viewsPer" + query);
-            console.log(ctx.state.useFullDataset);
-            let res = await api.getViews(ctx.state.useFullDataset, ctx.state.genres_filter, timeRange, queries.map(v => v.toLowerCase()));
+            let res = await api.getViews(ctx.state.useFullDataset, ctx.state.genres_filter, timeRange, queries.map(v => v.toLowerCase()), ctx.state.ratingsFilter);
 
             for (let query of queries) {
                 if (res.status === 200) {

@@ -25,7 +25,7 @@
               <mdb-col col="12">
                 <toggle-button
                   :value="fullDataset"
-                  :labels="{checked: 'Use Full Dataset', unchecked: 'Use Test Dataset'}"
+                  :labels="{checked: 'Use Full Dataset', unchecked: 'Use Partial Dataset'}"
                   :width="150"
                   :height="30"
                   @change="updateDatasetToUse"
@@ -84,8 +84,8 @@
                     class="my-auto"
                   >
                     <date-picker
-                      placeholder="Choose from date"
                       v-model="to"
+                      placeholder="Choose from date"
                       :config="options"
                     />
                   </mdb-col>
@@ -105,7 +105,55 @@
             </mdb-row>
             <hr>
           </mdb-col>
+          <mdb-col col="12">
+            <mdb-row>
+              <mdb-col col="12">
+                <h5>Filter by review score</h5>
+              </mdb-col>
+              <mdb-col col="12">
+                <mdb-row>
+                  <mdb-col
+                    col="4"
+                    class="my-auto text-left"
+                  >
+                    Minimum :
+                  </mdb-col>
+                  <mdb-col
+                    col="7"
+                    class="my-auto"
+                  >
+                    <v-select
+                      :value="$store.state.ratingsFilter.min"
+                      :options="scoreOptions"
+                      @input="updateMinimumScore"
+                    />
+                  </mdb-col>
+                </mdb-row>
+              </mdb-col>
 
+              <mdb-col col="12">
+                <mdb-row>
+                  <mdb-col
+                    col="4"
+                    class="my-auto text-left"
+                  >
+                    Maximum :
+                  </mdb-col>
+                  <mdb-col
+                    col="7"
+                    class="my-auto"
+                  >
+                    <v-select
+                      :value="$store.state.ratingsFilter.max"
+                      :options="scoreOptions"
+                      @input="updateMaximumScore"
+                    />
+                  </mdb-col>
+                </mdb-row>
+              </mdb-col>
+            </mdb-row>
+            <hr>
+          </mdb-col>
           <mdb-col col="12">
             <mdb-col col="12">
               <h5>Filter by movie genre</h5>
@@ -199,6 +247,7 @@ export default {
       change: false,
       from: null,
       to: null,
+      scoreOptions: [0.5,1,1.5,2,2.5,3,3.5,4,4.5,5],
       options: {
         format: 'DD/MM/YYYY',
         useCurrent: false,
@@ -208,7 +257,7 @@ export default {
   computed: {
     ...mapGetters(['GenresFilter', 'RatingsTimeRange']),
     ...mapState({
-      fullDataset: state => state.useFullDataset
+      fullDataset: state => state.useFullDataset,
     })
   },
   watch: {
@@ -266,7 +315,21 @@ export default {
       this.$store.dispatch('getRatingsTimeBounds');
       // We must also get the new bounds
       this.change = true;
-    }
+    },
+    updateMinimumScore(value){
+      if (value === null){
+        value = 0;
+      }
+      this.$store.commit('setRatingsFilter', {min: value, max: null});
+      this.change = true;
+    },
+    updateMaximumScore(value){
+      if (value === null){
+        value = 5;
+      }
+      this.$store.commit('setRatingsFilter', {min: null, max: value});
+      this.change = true;
+    },
   }
 
 }

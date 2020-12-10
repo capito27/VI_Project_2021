@@ -28,9 +28,6 @@
         />
         <LoadingSpinner v-show="loading.viewsPerDayOfWeek" />
       </mdb-col>
-      <mdb-col col="12">
-        <TriStateButton />
-      </mdb-col>
     </mdb-row>
   </mdb-container>
 </template>
@@ -50,7 +47,6 @@ import TriStateButton from "@/components/TriStateButton";
 export default {
   name: "DistributionViews",
   components: {
-    TriStateButton,
     mdbContainer,
     mdbRow,
     mdbCol,
