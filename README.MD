@@ -3,10 +3,10 @@ Fortunato Filipe et Dévaud Guillaume
 
 ## Récupération des datasets
 
-Avant de lancer le projet, il faut récurpérer les deux datasets utilisés dans le projet, disponibles à cette addresse [https://grouplens.org/datasets/movielens/](https://grouplens.org/datasets/movielens/) :
+Avant de lancer le projet, il faut récurpérer un des deux datasets utilisés dans le projet, disponibles à cette addresse [https://grouplens.org/datasets/movielens/](https://grouplens.org/datasets/movielens/) :
 
 1. Le dataset [MovieLens 25M](http://files.grouplens.org/datasets/movielens/ml-25m.zip), le contenu du sous-dossier "ml-25m" doit être décompressé dans le dossier `backend/static/dataset/big`
-2. Le dataset [MovieLens Latest Small](http://files.grouplens.org/datasets/movielens/ml-latest-small.zip), le contenu du sous-dossier "ml-latest-small" doit être décompressé dans le dossier `backend/static/dataset/small`
+
 
 ## Lancement
 
